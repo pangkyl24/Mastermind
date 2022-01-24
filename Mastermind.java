@@ -4,37 +4,79 @@ public class Mastermind{
 	
 	private ArrayList<ArrayList<String>> board = new ArrayList<ArrayList<String>>();
 	private ArrayList<String> code = new ArrayList<String>();
+	private int SIZE;
+	
+	public Mastermind(int size){
+		SIZE = size;
+	}
 	
 	public void setCode(){
 		int rand;
-		for(int i = 0; i < 5; i++){		
+		for(int i = 0; i < SIZE; i++){		
 				rand = (int)(Math.random()*7);
-				if(rand==0){
-					code.add("R");
-				}		
-				else if(rand==1){
-					code.add("Y");
-				}
-				else if(rand==2){
-					code.add("O");
-				}
-				else if(rand==3){
-					code.add("G");
-				}
-				else if(rand==4){
-					code.add("B");
-				}
-				else if(rand==5){
-					code.add("P");
-				}
-				else{
-					code.add("W");
+				switch (rand){
+					case 0: code.add("R");
+					        break;
+					case 1: code.add("Y");
+					        break;
+					case 2: code.add("O");
+					        break;
+					case 3: code.add("G");
+					        break;
+					case 4: code.add("B");
+					        break;
+					case 5: code.add("P");
+					        break;
+					case 6: code.add("W");
+					        break;
 				}		
 		}
 	}
+	
+	public void setCode(String input){
+		for(int i = 0; i < SIZE; i++){
+			code.add(input.substring(i, i+1));
+		}	
+	}
+	
+	public void setCode(boolean noRepeats){
+		int[] randomList = new int[SIZE];
+		for(int i = 0; i < SIZE; i++){
+			randomList[i] = (int)(Math.random()*7);
+			for(int k = 0; k < i; k++){
+				if(randomList[k] == randomList[i]){
+					i--;
+					break;
+				}
+			}
+		}
+		for(int i = 0; i < SIZE; i++){
+			switch (randomList[i]){
+				case 0: code.add("R");
+				        break;
+				case 1: code.add("Y");
+				        break;
+				case 2: code.add("O");
+				        break;
+				case 3: code.add("G");
+				        break;
+				case 4: code.add("B");
+				        break;
+				case 5: code.add("P");
+				        break;
+				case 6: code.add("W");
+				        break;
+			}
+		}
+		
+		
+		
+	}
+	
 	public void printCode(){
 		System.out.println(code);
 	}
+	
 	public void printBoard(){
 		for(int i = 0; i < board.size(); i++){
 			for(int j = 0; j < board.get(i).size(); j++){
@@ -48,11 +90,12 @@ public class Mastermind{
 		int redPins = 0;
 		int whitePins = 0;
 		
-		for(int i = 0; i < 5; i++){
+		for(int i = 0; i < SIZE; i++){
 			if(board.get(board.size()-1).get(i).equals(code.get(i))){
 				redPins++;
 			}
 		}
+		
 		int rC = 0; 
 		int yC = 0; 
 		int oC = 0; 
@@ -60,7 +103,7 @@ public class Mastermind{
 		int bC = 0; 
 		int pC = 0; 
 		int wC = 0;
-		for(int i = 0; i < 5; i++){
+		for(int i = 0; i < SIZE; i++){
 			if(board.get(board.size()-1).get(i).equals("R")){
 				rC++;
 			}
@@ -83,40 +126,42 @@ public class Mastermind{
 				wC++;
 			}
 		}
-		for(int i = 0; i < 5; i++){
-			if(code.get(i).equals("R")){
+		for(int i = 0; i < SIZE; i++){
+			if(code.get(i).equals("R") && rC>0 ){
 				whitePins++;
 				rC--;
 			}
-			else if(code.get(i).equals("Y")){
+			else if(code.get(i).equals("Y") && yC>0){
 				whitePins++;
 				yC--;
 			}
-			else if(code.get(i).equals("O")){
+			else if(code.get(i).equals("O") && oC>0){
 				whitePins++;
 				oC--;
 			}
-			else if(code.get(i).equals("G")){
+			else if(code.get(i).equals("G") && gC>0){
 				whitePins++;
 				gC--;
 			}
-			else if(code.get(i).equals("B")){
+			else if(code.get(i).equals("B") && bC>0){
 				whitePins++;
 				bC--;
 			}
-			else if(code.get(i).equals("P")){
+			else if(code.get(i).equals("P") && pC>0){
 				whitePins++;
 				pC--;
 			}
-			else if(code.get(i).equals("W")){
+			else if(code.get(i).equals("W") && wC>0){
 				whitePins++;
 				wC--;
 			}
 		}
 		whitePins-=redPins;
+		//System.out.println("Whitepins: " + whitePins);
+		//System.out.println("Redpins: " + redPins);
 		
 		board.get(board.size()-1).add("{---- ");
-		for(int i = 0; i < 5; i++){
+		for(int i = 0; i < SIZE; i++){
 			if(redPins!=0){
 				redPins--;
 				board.get(board.size()-1).add("O");
@@ -132,15 +177,17 @@ public class Mastermind{
 		board.get(board.size()-1).add(" ----}");
 	}
 	
-	public void addGuess(String inp1, String inp2, String inp3, String inp4, String inp5){
+	public void addGuess(String input, boolean score){
 		ArrayList<String> temp = new ArrayList<String>();
-		temp.add(inp1);
-		temp.add(inp2);
-		temp.add(inp3);
-		temp.add(inp4);
-		temp.add(inp5);
+		for(int i = 0; i < SIZE; i++){
+			temp.add(input.substring(i, i+1));
+		}
 		board.add(temp);
+		if(score){
+			scoreRecent();
+		}
 	}
+	
 	
 }
 
