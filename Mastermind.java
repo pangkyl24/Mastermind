@@ -10,7 +10,7 @@ public class Mastermind{
 		SIZE = size;
 	}
 	
-	public void setCode(){
+	public void setCode(){ //Randomly Sets the Code - Repeats Allowed
 		int rand;
 		for(int i = 0; i < SIZE; i++){		
 				rand = (int)(Math.random()*7);
@@ -33,13 +33,7 @@ public class Mastermind{
 		}
 	}
 	
-	public void setCode(String input){
-		for(int i = 0; i < SIZE; i++){
-			code.add(input.substring(i, i+1));
-		}	
-	}
-	
-	public void setCode(boolean noRepeats){
+	public void setCode(boolean noRepeats){ //Randomly Sets the Code - Repeats Not Allowed
 		int[] randomList = new int[SIZE];
 		for(int i = 0; i < SIZE; i++){
 			randomList[i] = (int)(Math.random()*7);
@@ -68,16 +62,19 @@ public class Mastermind{
 				        break;
 			}
 		}
-		
-		
-		
 	}
 	
-	public void printCode(){
+	public void setCode(String input){ //Sets the Code - Manual Input
+		for(int i = 0; i < SIZE; i++){
+			code.add(input.substring(i, i+1));
+		}	
+	}
+	
+	public void printCode(){ //Prints the CODE
 		System.out.println(code);
 	}
 	
-	public void printBoard(){
+	public void printBoard(){ //Prints the BOARD [Excluding the Code]
 		for(int i = 0; i < board.size(); i++){
 			for(int j = 0; j < board.get(i).size(); j++){
 				System.out.print(board.get(i).get(j) + " ");
@@ -86,11 +83,11 @@ public class Mastermind{
 		}
 	}	
 	
-	public void scoreRecent(){ //WIP
+	public void scoreRecent(){ //Scores the most Recent Guess
 		int redPins = 0;
 		int whitePins = 0;
 		
-		for(int i = 0; i < SIZE; i++){
+		for(int i = 0; i < SIZE; i++){ //Counts Num of Red pins
 			if(board.get(board.size()-1).get(i).equals(code.get(i))){
 				redPins++;
 			}
@@ -103,7 +100,7 @@ public class Mastermind{
 		int bC = 0; 
 		int pC = 0; 
 		int wC = 0;
-		for(int i = 0; i < SIZE; i++){
+		for(int i = 0; i < SIZE; i++){ //Counts num of each color
 			if(board.get(board.size()-1).get(i).equals("R")){
 				rC++;
 			}
@@ -126,7 +123,7 @@ public class Mastermind{
 				wC++;
 			}
 		}
-		for(int i = 0; i < SIZE; i++){
+		for(int i = 0; i < SIZE; i++){ //If the code has a color, and there is a color in guess: whitePins++
 			if(code.get(i).equals("R") && rC>0 ){
 				whitePins++;
 				rC--;
@@ -156,10 +153,11 @@ public class Mastermind{
 				wC--;
 			}
 		}
-		whitePins-=redPins;
+		whitePins-=redPins; //Removes excess Whitepins
 		//System.out.println("Whitepins: " + whitePins);
 		//System.out.println("Redpins: " + redPins);
 		
+		//Adding the Scoring to the Board
 		board.get(board.size()-1).add("{---- ");
 		for(int i = 0; i < SIZE; i++){
 			if(redPins!=0){
@@ -177,7 +175,7 @@ public class Mastermind{
 		board.get(board.size()-1).add(" ----}");
 	}
 	
-	public void addGuess(String input, boolean score){
+	public void addGuess(String input, boolean score){ //Adds a guess to the board
 		ArrayList<String> temp = new ArrayList<String>();
 		for(int i = 0; i < SIZE; i++){
 			temp.add(input.substring(i, i+1));
