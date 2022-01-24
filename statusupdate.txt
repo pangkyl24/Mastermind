@@ -1,0 +1,2 @@
+1/24:
+Finished up every method I plan on using. Will start creating the GAME soon.
