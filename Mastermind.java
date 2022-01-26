@@ -10,6 +10,10 @@ public class Mastermind{
 		SIZE = size;
 	}
 	
+	public int getSize(){
+		return SIZE;
+	}
+	
 	public void setCode(){ //Randomly Sets the Code - Repeats Allowed
 		int rand;
 		for(int i = 0; i < SIZE; i++){		
@@ -186,6 +190,14 @@ public class Mastermind{
 		}
 	}
 	
+	public boolean checkWin(String input){
+		for(int i = 0; i < SIZE; i++){
+			if(input[i] != code.get(i)){
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	
 }
-
