@@ -78,6 +78,14 @@ public class Mastermind{
 		System.out.println(code);
 	}
 	
+	public String getCode(){
+		String ret = "";
+		for(int i = 0; i < SIZE; i++){
+			ret = ret + code.get(i);
+		}
+		return ret;
+	}
+	
 	public void printBoard(){ //Prints the BOARD [Excluding the Code]
 		for(int i = 0; i < board.size(); i++){
 			for(int j = 0; j < board.get(i).size(); j++){
@@ -192,7 +200,7 @@ public class Mastermind{
 	
 	public boolean checkWin(String input){
 		for(int i = 0; i < SIZE; i++){
-			if(input[i] != code.get(i)){
+			if(input.substring(i, i+1) != code.get(i)){
 				return false;
 			}
 		}
