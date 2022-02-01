@@ -2,11 +2,12 @@ import java.util.Scanner;
 
 public class Main{
 	
-	public boolean testInputValidity(String input){
+	public static boolean testInputValidity(String input){
+		input = input.toUpperCase();
 		String charAtI;
 		for(int i = 0; i < input.length(); i++){
 			charAtI = input.substring(i, i+1);
-			if(charAtI != "R" && charAtI != "Y" && charAtI != "O" && charAtI != "G" && charAtI != "B" && charAtI != "P" && charAtI != "W"){
+			if(!(charAtI == "R" || charAtI == "Y" || charAtI == "O" || charAtI == "G" || charAtI == "B" || charAtI == "P" || charAtI != "W")){
 				return false;
 			}
 		}
@@ -19,6 +20,7 @@ public class Main{
 		Scanner scan = new Scanner(System.in);
 		int temp = 0;
 		String input = "";
+		String buffClear;
 		
 		System.out.println();
 		System.out.println("~~______________________~~");
@@ -28,7 +30,8 @@ public class Main{
 	
 		while (temp > 7 || temp < 4){
 			System.out.println("How Big a Code Do you Want to Crack? (Input a Number Between 4-7)");
-			temp = Integer.parseInt(scan.nextLine());
+			temp = scan.nextInt();
+			buffClear = scan.nextLine();
 		}
 		
 		
@@ -37,10 +40,12 @@ public class Main{
 		System.out.println();
 		System.out.println();
 		System.out.println("Would you like to play this game with or without repeats? (Type 1 for Repeats: Type 2 for no repeats)");
-		temp = Integer.parseInt(scan.nextLine());
+		temp = scan.nextInt();
+		buffClear = scan.nextLine();
 		while(temp != 1 && temp != 2){
 			System.out.println("Would you like to play this game with or without repeats? (Type 1 for Repeats: Type 2 for no repeats)");
-			temp = Integer.parseInt(scan.nextLine());
+			temp = scan.nextInt();
+			buffClear = scan.nextLine();
 		}
 		
 		if (temp == 1){
@@ -58,17 +63,32 @@ public class Main{
 		
 		int tryNum = 1;
 		boolean gameWon = false;
+		game.printCode();
+		
 		
 		while(gameWon == false){
 			System.out.println();
 			System.out.println("Guess #" + tryNum);
 			System.out.println("Input Your Guess! Any Guess with Characters other than R, Y, O, G, B, P, W will be Bounced");
-			input = scan.nextLine();
+			input = scan.nextLine().toUpperCase();
+			buffClear = scan.nextLine();
 			while(!testInputValidity(input) || input.length() < game.getSize()){
-				//WIP
+				System.out.println("Input Your Guess! Any Guess with Characters other than R, Y, O, G, B, P, W will be Bounced");
+				input = scan.nextLine().toUpperCase();
+				buffClear = scan.nextLine();
 			}
+			game.addGuess(input, true);
+			if(game.getCode().equals(input.substring(0, game.getSize()))){
+				//System.out.println("HIHIHIHIHIHI");
+				gameWon = true;
+				break;
+			}
+			game.printBoard();
+			tryNum++;
 			
 		}
+		System.out.println("GG! It only took you " + tryNum + " tries!!!");
+		game.printBoard();
 		
 		
 		
